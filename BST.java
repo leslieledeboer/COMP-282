@@ -110,17 +110,108 @@ public boolean isEmpty() {
 
 
       public boolean delete(E e) {
+
+            TreeNode parent;
             boolean blResult = false;
-            /**
-             * TODO: INSERT YOUR CODE HERE
-             * DELETE THE ITEM PASSED AND REPLACE WITH THE INORDER SUCCESSOR OF THE ELEMENT
-             * RETURN true IF ELEMENT FOUND AND DELETED
-             * ELSE RETURN false i.e. ITEM NOT FOUND
-             *HINT: THE NUMBER OF NODE CAN BE UPDATED IN THE "size" VARIABLE 
-             *HINT: SEARCH FOR THE ELEMENT TO BE DELETED AND DELETE THE ELEMENT ONCE FOUND
-             * 
-             */
+            boolean direction = false; // true = left, false = right
+            TreeNode currentNode = root;
+            final int initialSize = size;
+
+            if (root != null) {
+                while (initialSize == size) {
+                    switch(e.compareToIgnoreCase(currentNode.element)) {
+                        case -1: {
+
+                            if (currentNode.left == null) {
+                                return false;
+                            }
+
+                            else {
+                                direction = true;
+                                parent = currentNode;
+                                currentNode = currentNode.left;
+                            }
+            
+                            break;
+                        }
+
+                        case 0: {
+                            
+                            if (currentNode.left == null && currentNode.right == null) {
+                                if (direction) {
+                                    parent.left = null;
+                                }
+
+                                else {
+                                    parent.right = null;
+                                }
+                            }
+
+                            else if (currentNode.left == null) {
+                                if (direction) {
+                                    parent.left = currentNode.right;
+                                }
+
+                                else {
+                                    parent.right = currentNode.right;
+                                }
+                            }
+
+                            else if (currentNode.right == null) {
+                                if (direction) {
+                                    parent.left = currentNode.left;
+                                }
+
+                                else {
+                                    parent.right = currentNode.left;
+                                }
+                            }
+
+                            else {
+                                TreeNode successorParent;
+                                TreeNode successor = currentNode.right;
+
+                                while (successor.left != null) {
+                                    successorParent = successor;
+                                    successor = successor.left;
+                                }
+
+                                if (successor.right == null) {
+                                    currentNode = successor;
+                                }
+
+                                else {
+                                    successorParent.left = successor.right;
+                                    currentNode = successor;
+                                }
+                            }
+
+                            blResult = true;
+                            --size;
+
+                            break;
+                        }
+
+                        case 1: {
+
+                            if (currentNode.right == null) {
+                                return false;
+                            }
+
+                            else {
+                                direction = false;
+                                parent = currentNode;
+                                currentNode = currentNode.right;
+                            }
+                            
+                            break;
+                        }
+                    }
+                }
+            }
+            
             return blResult;
+
       }
 
    // returns the size of the tree
