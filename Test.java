@@ -12,7 +12,7 @@ public class Test {
 		int NumberOfEdges=0;
 		ArrayList<String> vert=new ArrayList();
 		int[][] edges=null;
-		File file = new File("src/input.txt");
+		File file = new File("input.txt");
 		BST<String> objTest=new BST<>();
 			Scanner sc = new Scanner(file);
 			
