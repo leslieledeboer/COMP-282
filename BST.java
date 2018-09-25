@@ -86,13 +86,12 @@ public class  BST<E> implements TreeInterface<E> {
         }
 
         else {
-            TreeNode currentNode = (TreeNode) root;
+            TreeNode currentNode = root;
 
             while (initialSize == size) {
-                switch(element.compareToIgnoreCase((String) currentNode.element)) {
-                    case -1: {
 
-                        if (currentNode.left == null) {
+                if (element.compareToIgnoreCase((String) currentNode.element) < 0) {
+                    if (currentNode.left == null) {
                             currentNode.left = node;
                             ++size;
                         }
@@ -100,17 +99,10 @@ public class  BST<E> implements TreeInterface<E> {
                         else {
                             currentNode = currentNode.left;
                         }
-            
-                        break;
-                    }
+                }
 
-                    case 0: {
-                        return;
-                    }
-
-                    case 1: {
-
-                        if (currentNode.right == null) {
+                else if (element.compareToIgnoreCase((String) currentNode.element) > 0) {
+                    if (currentNode.right == null) {
                             currentNode.right = node;
                             ++size;
                         }
@@ -118,9 +110,10 @@ public class  BST<E> implements TreeInterface<E> {
                         else {
                             currentNode = currentNode.right;
                         }
-                            
-                        break;
-                    }
+                }
+
+                else {
+                    return;
                 }
             }
         }
@@ -136,10 +129,9 @@ public class  BST<E> implements TreeInterface<E> {
 
             if (root != null) {
                 while (initialSize == size) {
-                    switch(element.compareToIgnoreCase((String) currentNode.element)) {
-                        case -1: {
 
-                            if (currentNode.left == null) {
+                    if (element.compareToIgnoreCase((String) currentNode.element) < 0) {
+                        if (currentNode.left == null) {
                                 return false;
                             }
 
@@ -148,13 +140,22 @@ public class  BST<E> implements TreeInterface<E> {
                                 parent = currentNode;
                                 currentNode = currentNode.left;
                             }
-            
-                            break;
-                        }
+                    }
 
-                        case 0: {
-                            
-                            if (currentNode.left == null && currentNode.right == null) {
+                    else if (element.compareToIgnoreCase((String) currentNode.element) > 0) {
+                        if (currentNode.right == null) {
+                                return false;
+                            }
+
+                            else {
+                                direction = false;
+                                parent = currentNode;
+                                currentNode = currentNode.right;
+                            }
+                    }
+
+                    else {
+                        if (currentNode.left == null && currentNode.right == null) {
                                 if (direction) {
                                     parent.left = null;
                                 }
@@ -205,24 +206,6 @@ public class  BST<E> implements TreeInterface<E> {
 
                             blResult = true;
                             --size;
-
-                            break;
-                        }
-
-                        case 1: {
-
-                            if (currentNode.right == null) {
-                                return false;
-                            }
-
-                            else {
-                                direction = false;
-                                parent = currentNode;
-                                currentNode = currentNode.right;
-                            }
-                            
-                            break;
-                        }
                     }
                 }
             }
@@ -279,13 +262,13 @@ public class  BST<E> implements TreeInterface<E> {
             }
 
             else {
-                TreeNode node = nodes.pop();
+                currentNode = nodes.pop();
 
                 if (currentNode.left != null || currentNode.right != null) {
                     nonleaves++;
                 }
 
-                currentNode = node.right;
+                currentNode = currentNode.right;
             }
         }
 
@@ -306,9 +289,9 @@ public class  BST<E> implements TreeInterface<E> {
             }
 
             else {
-                TreeNode node = nodes.pop();
+                currentNode = nodes.pop();
                 nonRecursiveInorder.add((E) currentNode.element);
-                currentNode = node.right;
+                currentNode = currentNode.right;
             }
         }
 
